@@ -8,22 +8,27 @@ use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
-    public function index()
-    { 
-      return view("admin.categories.categorie");
-    }
+    
 
-    public function liste()
-    {
-        $categorie = Categorie::paginate(5);
+  public function liste(Request $request)
+  {
+      $search = $request->input('search');
+
+      $categorie = Categorie::query()
+          ->when($search, function ($query, $search) {
+              return $query->where('nom', 'like', "%{$search}%");
+          })
+          ->paginate(5);
+
       return view("admin.categories.liste-categorie", compact('categorie'));
-    }
+  }
+
 
     public function store(Request $request)
     {
         $categorie = new Categorie(); 
         $categorie->nom = $request->nom;
-        $categorie->description = $request->description;;
+        $categorie->description = $request->description;
         
         $categorie->save();
  

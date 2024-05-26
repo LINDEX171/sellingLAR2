@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use HasFactory;
+    
+    protected $guarded = [];
+
+    public function categorie()
+    {
+        return $this->belongsTo(Categorie::class);
+    }
 }

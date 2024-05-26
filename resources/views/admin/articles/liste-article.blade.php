@@ -10,9 +10,9 @@
                         <p>{{ $message }}</p>
                     </div>
                 @endif
-                    <h5>Liste Categorie</h5>
+                    <h5>Liste Article</h5>
                     <div class="ibox-tools">
-                        <a href="#" class="btn btn-primary " data-toggle="modal" data-target="#modal-form">Ajouter Categorie</a>
+                        <a href="#" class="btn btn-primary " data-toggle="modal" data-target="#modal-form">Ajouter Article</a>
 
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -22,10 +22,9 @@
                 <div class="ibox-content">
                     <!-- Formulaire de Recherche -->
                     <form method="GET" action="{{ route('liste') }}" class="form-inline my-2 my-lg-0">
-                        <input name="search" class="form-control mr-sm-2" type="search" placeholder="Rechercher une categorie par nom" aria-label="Search" value="{{ request('search') }}">
+                        <input name="search" class="form-control mr-sm-2" type="search" placeholder="Rechercher un article" aria-label="Search" value="{{ request('search') }}">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
-                    </form>
-
+                    </form> 
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -33,21 +32,24 @@
                                     <th class="col-lg-2">Id</th>
                                     <th class="col-lg-2">Nom</th>
                                     <th class="col-lg-2">Description</th>
+                                    <th class="col-lg-2">Categorie</th>
                                     <th class="col-lg-2">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categorie as $c)
+                                @foreach ($article as $a)
                                 <tr>
-                                    <td>{{ $c->id }}</td>
-                                    <td>{{ $c->nom }}</td>
-                                    <td>{{ $c->description }}</td>
+                                    <td>{{ $a->id }}</td>
+                                    <td>{{ $a->nom }}</td>
+                                    <td>{{ $a->description }}</td>
+                                    <td>{{ $a->categorie->nom }}</td>
+                                
                                    
                                     <td>
-                                        <a href="/update-categorie/{{ $c->id }}" class="btn btn-info btn-sm ">
+                                        <a href="/update-article/{{ $a->id }}" class="btn btn-info btn-sm ">
                                             <i class="fa fa-pencil"></i> 
                                         </a>
-                                        <a href="/delete-categorie/{{ $c->id }}" class="btn btn-danger btn-sm">
+                                        <a href="/delete-article/{{ $a->id }}" class="btn btn-danger btn-sm">
                                             <i class="fa fa-trash"></i> 
                                     </td>
                                 </tr>
@@ -59,9 +61,9 @@
                     <div class="row">
                         <div class="col-lg-12 text-center">
                             <ul class="pagination">
-                                @for ($i = 1; $i <= $categorie->lastPage(); $i++)
-                                    <li class="{{ ($categorie->currentPage() == $i) ? 'active' : '' }}">
-                                        <a href="{{ $categorie->url($i) }}">{{ $i }}</a>
+                                @for ($i = 1; $i <= $article->lastPage(); $i++)
+                                    <li class="{{ ($article->currentPage() == $i) ? 'active' : '' }}">
+                                        <a href="{{ $article->url($i) }}">{{ $i }}</a>
                                     </li>
                                 @endfor
                             </ul>
@@ -82,11 +84,11 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Ajouter Categorie</h4>
+                <h4 class="modal-title">Ajouter Article</h4>
             </div>
             <div class="modal-body">
                 <!-- Formulaire d'ajout de niveau -->
-                <form class="form-horizontal" action="{{ Route('enregistrerCategorie') }}" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="{{ Route('enregistrerArticle') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Nom</label>
@@ -101,7 +103,19 @@
                             <input name="description" class="form-control" required>
                         </div>
                     </div>
-                                        
+                     
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label" for="categorie_id">Categorie </label>
+                        <div class="col-lg-10">
+                            <select name="categorie_id" class="form-control">
+                                <option value="" selected disabled>Sélectionnez categorie</option>
+                                @foreach ($categories as $categorie)
+                                    <option value="{{ $categorie->id }}">{{ $categorie->nom }} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
                     <br>
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">

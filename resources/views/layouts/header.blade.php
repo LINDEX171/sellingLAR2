@@ -27,6 +27,9 @@
                 <ul class="nav nav-second-level">
                     <li><a href="{{ url('liste-categorie')}}">Categories</a></li>
                 </ul>
+                <ul class="nav nav-second-level">
+                    <li><a href="{{ url('liste-article')}}">Articles</a></li>
+                </ul>
             </li>  
              
             
