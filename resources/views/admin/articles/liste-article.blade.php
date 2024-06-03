@@ -55,22 +55,15 @@
                                 </tr>
                                 @endforeach
                             </tbody>
-                        </table>
-                    </div>
-                    <!-- Pagination -->
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-                            <ul class="pagination">
-                                @for ($i = 1; $i <= $article->lastPage(); $i++)
-                                    <li class="{{ ($article->currentPage() == $i) ? 'active' : '' }}">
-                                        <a href="{{ $article->url($i) }}">{{ $i }}</a>
-                                    </li>
-                                @endfor
-                            </ul>
+                            </table>
                         </div>
+                        <!-- Pagination -->
+                        
+                        <div style="display: flex; justify-content: flex-end;">
+                            {{ $article->links() }}
+                        </div>
+                        <!-- End Pagination -->
                     </div>
-                    <!-- End Pagination -->
-                </div>
             </div>
         </div>
     </div>
